@@ -62,10 +62,12 @@ def main():
     load_data(directory)
     print("Data loaded.")
 
-    source = person_id_for_name(input("Name: "))
+    source = person_id_for_name("Kevin Bacon")
+    # source = person_id_for_name(input("Name: "))
     if source is None:
         sys.exit("Person not found.")
-    target = person_id_for_name(input("Name: "))
+    target = person_id_for_name("Valeria Golino")
+    # target = person_id_for_name(input("Name: "))
     if target is None:
         sys.exit("Person not found.")
 
@@ -110,11 +112,13 @@ def shortest_path(source, target):
     while True:
 
         print("Explored : " + str(explored))
-        print("Frontier : " + str(frontier))
+        print("Frontier : " + str(frontier.frontier[0].state))
+        print(" ")
 
         if len(explored) % 100 == 0:
             print('Actors explored to find solution: ', len(explored))
             print('Nodes left to expand in Frontier: ', len(frontier.frontier))
+            print(" ")
 
         # Check for empty Frontier and return with no path if empty
         if frontier.empty():
@@ -125,7 +129,7 @@ def shortest_path(source, target):
         # Otherwise expand the next node in the Queue, add it to the explored states and get set of movies and actors for the actor in the current node:
         curr_node = frontier.remove()
         explored.add(curr_node.state)
-        print("Current Node : " + str(curr_node))
+        print("Current Node : " + str(curr_node.state) +" / " + str(curr_node.parent) +" / " + str(curr_node.action))
 
         for action, state in neighbors_for_person(curr_node.state):
 
@@ -133,6 +137,7 @@ def shortest_path(source, target):
             if state == target:
                 print('Solution Found!')
                 print(len(explored), 'actors explored to find solution!')
+                print("")
                 # Create path from source to target
                 path = []
                 path.append((action, state))
@@ -140,6 +145,7 @@ def shortest_path(source, target):
                 print("Action : " + str(action))
                 print("State : " + str(state))
                 print("Path : " + str(path))
+                print(" ")
 
                 # Add action and state to path until back to start node
                 while curr_node.parent != None:
